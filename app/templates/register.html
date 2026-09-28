@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admissions | Cybertron Academy</title>
+    <link rel="icon" href="../static/images/favicon.svg" />
+    <link rel="stylesheet" href="../static/CSS/school.css" />
+    <link rel="stylesheet" href="../static/CSS/register.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body class="school-site page-register">
+    <div class="school-topbar">
+      <div class="school-topbar-inner">
+        <span
+          ><i class="fa-solid fa-location-dot"></i> No 99b First East Circular
+          Road, Opposite Catholic Church Beside Alpha Furnitures, Benin City,
+          Edo State</span
+        >
+        <div class="school-top-links">
+          <a href="/calendar">School calendar</a
+          ><a href="/portal">School Portal</a
+          ><a href="tel:07077388482">07077388482</a>
+        </div>
+      </div>
+    </div>
+    <header class="school-header">
+      <nav class="school-nav-inner">
+        <a class="school-logo" href="/"
+          ><span class="school-crest"><i class="fa-solid fa-star"></i></span
+          ><span>Cybertron Academy<small>Education for life</small></span></a
+        ><button
+          class="school-mobile-toggle"
+          aria-label="Open navigation"
+          aria-expanded="false"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <ul class="school-menu">
+          <li><a href="/">Home</a></li>
+          <li>
+            <a href="/platform"
+              >Our School <i class="fa-solid fa-chevron-down"></i
+            ></a>
+          </li>
+          <li>
+            <a href="/solutions"
+              >Academics <i class="fa-solid fa-chevron-down"></i
+            ></a>
+          </li>
+          <li>
+            <a class="active" href="/resources"
+              >Admissions <i class="fa-solid fa-chevron-down"></i
+            ></a>
+            <ul class="school-dropdown">
+              <li><a href="/register">Apply now</a></li>
+              <li><a href="/resources">Admissions process</a></li>
+            </ul>
+          </li>
+          <li><a href="/resources">Life at Cyber Hall</a></li>
+        </ul>
+        <div class="school-nav-actions">
+          <a class="school-nav-button school-nav-login" href="/portal"
+            >School Portal</a
+          >
+        </div>
+      </nav>
+    </header>
+    <main class="school-form-wrap page-register-wrap">
+      <section class="school-form-intro">
+        <span class="school-kicker">Create account</span>
+        <h1>Register your family and begin the enrolment journey.</h1>
+        <p class="school-content">
+          Set up your secure family portal to apply for admission, receive
+          updates, and stay connected with your child’s school journey.
+        </p>
+        <div class="school-benefits">
+          <div>
+            <i class="fa-solid fa-check-circle"></i>
+            <span>Fast application updates</span>
+          </div>
+          <div>
+            <i class="fa-solid fa-check-circle"></i>
+            <span>Secure family access</span>
+          </div>
+          <div>
+            <i class="fa-solid fa-check-circle"></i>
+            <span>School communications in one place</span>
+          </div>
+        </div>
+        <img
+          class="school-card-image"
+          src="../static/images/Entrance.jfif"
+          alt="Cybertron Academy school entrance"
+        />
+      </section>
+      <section class="school-form-panel">
+        <h2>Register</h2>
+        <form data-school-form>
+          <label for="parent-name">Parent or guardian full name</label>
+          <input id="parent-name" type="text" required />
+
+          <label for="register-email">Email address</label>
+          <input id="register-email" type="email" required />
+
+          <label for="phone-number">Phone number</label>
+          <input id="phone-number" type="tel" required />
+
+          <label for="register-password">Create password</label>
+          <input id="register-password" type="password" required />
+
+          <label for="child-name">Child's full name</label>
+          <input id="child-name" type="text" required />
+
+          <label for="year-group">Interested year group</label>
+          <select id="year-group" required>
+            <option value="">Select a year group</option>
+            <option>Early years</option>
+            <option>Primary school</option>
+            <option>Secondary school</option>
+          </select>
+
+          <button class="school-button school-button-gold" type="submit">
+            Create account
+          </button>
+        </form>
+        <p class="school-form-meta">
+          Already have an account?
+          <a class="school-card-link" href="login.html">Sign in here</a>
+        </p>
+      </section>
+    </main>
+    <footer class="school-footer">
+      <div class="school-container school-footer-bottom">
+        © 2026 Aptech Hall Education. Nurturing excellence, character and
+        possibility.
+      </div>
+    </footer>
+    <div class="school-toast" role="status"></div>
+    <script src="../static/JS/school.js"></script>
+  </body>
+</html>

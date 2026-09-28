@@ -1,0 +1,77 @@
+:root {
+    --page-accent: #0b70b5;
+    --page-soft: #e9f4fc;
+    --page-surface: #ffffff;
+}
+
+.page-register .school-form-panel {
+    background: var(--page-surface);
+    border-top: 4px solid var(--page-accent);
+    box-shadow: 0 20px 38px rgba(23, 54, 76, 0.12);
+}
+
+.page-register .school-form-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.page-register .school-form-intro h1 {
+    color: #17364c;
+    font-family: Georgia, serif;
+    font-size: clamp(2.4rem, 4vw, 4.2rem);
+    line-height: 1.02;
+    margin: 18px 0 16px;
+}
+
+.page-register .school-kicker {
+    color: var(--page-accent);
+}
+
+.page-register .school-content {
+    color: #475a66;
+    font-size: 1.02rem;
+}
+
+.page-register .school-benefits {
+    display: grid;
+    gap: 12px;
+    margin: 24px 0 28px;
+}
+
+.page-register .school-benefits div {
+    align-items: center;
+    background: #f3f9fd;
+    border-left: 3px solid var(--page-accent);
+    color: #153d57;
+    display: flex;
+    gap: 10px;
+    padding: 10px 14px;
+}
+
+.page-register .school-benefits i {
+    color: var(--page-accent);
+}
+
+.page-register .school-card-image {
+    border-radius: 14px;
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.page-register .school-form-panel h2 {
+    margin-bottom: 22px;
+}
+
+.page-register .school-form-meta {
+    color: #53626d;
+    font-size: 0.88rem;
+    margin-top: 18px;
+}
+
+.page-register input:focus,
+.page-register select:focus {
+    border-color: var(--page-accent);
+    outline: 2px solid rgba(11, 112, 181, 0.14);
+}

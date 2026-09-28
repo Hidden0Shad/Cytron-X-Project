@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuthShield 360 - Educational Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none !important; }
+        .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans h-screen flex flex-col">
+    <div class="bg-blue-900 text-white px-6 py-3 shadow-sm">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="font-semibold">AuthShield 360</div>
+            <a href="/" class="text-sm underline hover:text-blue-200">Back to school website</a>
+        </div>
+    </div>
+
+    <div id="alert-box" class="hidden fixed top-4 right-4 px-6 py-3 rounded shadow-lg text-white font-bold z-50"></div>
+
+    <div id="login-view" class="flex-grow flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-bold text-blue-700">AuthShield 360</h1>
+                <p class="text-sm text-gray-500">Identity Beyond Passwords</p>
+            </div>
+
+            <div class="flex justify-between border-b mb-6 text-sm">
+                <button onclick="switchTab('scenario-1')" id="tab-s1" class="pb-2 tab-active flex-1">Password Only</button>
+                <button onclick="switchTab('scenario-2')" id="tab-s2" class="pb-2 text-gray-500 flex-1">Password + OTP</button>
+                <button onclick="switchTab('scenario-3')" id="tab-s3" class="pb-2 text-gray-500 flex-1">Step-Up MFA</button>
+            </div>
+
+            <div id="form-container">
+                <input type="text" id="username" placeholder="Username" class="w-full mb-3 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="password" id="password" placeholder="Password" class="w-full mb-4 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <input type="text" id="otp-1" placeholder="Enter Primary OTP" class="hidden w-full mb-4 px-4 py-2 border rounded border-blue-300">
+                <input type="text" id="otp-2" placeholder="Enter Step-Up OTP" class="hidden w-full mb-4 px-4 py-2 border rounded border-green-300">
+
+                <button id="login-btn" onclick="handleLogin()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-view" class="hidden flex-grow flex flex-col">
+        <nav class="bg-blue-800 text-white px-6 py-4 flex justify-between items-center shadow">
+            <div class="font-bold text-xl">AuthShield 360</div>
+            <div class="flex items-center space-x-4">
+                <span id="user-role-badge" class="bg-blue-600 px-3 py-1 rounded-full text-xs font-semibold uppercase">Role</span>
+                <span id="user-name-display" class="font-medium">User</span>
+                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-1 rounded text-sm transition">Logout</button>
+            </div>
+        </nav>
+
+        <div class="flex flex-grow overflow-hidden">
+            <aside class="w-64 bg-white border-r shadow-sm flex flex-col p-4 space-y-2 overflow-y-auto">
+                <p class="text-xs font-bold text-gray-400 uppercase mb-2">My Portal</p>
+                <button onclick="fetchResource('profile')" class="text-left px-4 py-2 hover:bg-blue-50 rounded">Profile</button>
+                <button onclick="fetchResource('student_records')" class="text-left px-4 py-2 hover:bg-blue-50 rounded">Student Records</button>
+                <button onclick="fetchResource('assignments')" class="text-left px-4 py-2 hover:bg-blue-50 rounded">Assignments</button>
+                <button onclick="fetchResource('examination_results')" class="text-left px-4 py-2 hover:bg-blue-50 rounded">Examination Results</button>
+
+                <p class="text-xs font-bold text-gray-400 uppercase mb-2 mt-4">Staff &amp; Admin Area</p>
+                <button onclick="fetchResource('teacher_functions')" class="text-left px-4 py-2 hover:bg-blue-50 rounded">Teacher Functions</button>
+                <button onclick="fetchResource('user_management')" class="text-left px-4 py-2 hover:bg-blue-50 rounded">User Management</button>
+                <button onclick="fetchLogs()" class="text-left px-4 py-2 hover:bg-blue-50 rounded text-red-600 font-medium">Security Logs</button>
+            </aside>
+
+            <main class="flex-grow p-8 overflow-y-auto bg-gray-50">
+                <h2 id="content-title" class="text-2xl font-bold mb-4 text-gray-800">Welcome</h2>
+                <div id="content-body" class="bg-white p-6 rounded shadow-sm border border-gray-200 min-h-[300px]">
+                    Select a resource from the menu to view data.
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

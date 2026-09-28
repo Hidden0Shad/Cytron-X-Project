@@ -1,0 +1,9 @@
+:root {
+    --page-accent: #0b70b5;
+    --page-soft: #e9f4fc;
+    --page-surface: #ffffff;
+}
+.page-login .form-intro em,
+.page-login .eyebrow { color: var(--page-accent); }
+.page-login .form-panel { background: var(--page-surface); border-top: 4px solid var(--page-accent); }
+.page-login input:focus { border-color: var(--page-accent); outline-color: var(--page-soft); }

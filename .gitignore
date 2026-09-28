@@ -1,0 +1,37 @@
+# Python / virtualenv
+venv/
+.venv/
+ENV/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.pyre/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Flask / app data
+instance/
+*.db
+*.sqlite3
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local temp / extraction folders
+_frontend_extract/
+frontend_repo.zip
+
+# Generated evidence / local docs
+**/evidence/
+
+# Logs
+*.log

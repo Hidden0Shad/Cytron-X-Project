@@ -1,0 +1,9 @@
+:root {
+    --page-accent: #0b70b5;
+    --page-soft: #e9f4fc;
+    --page-surface: #ffffff;
+}
+.page-solutions .page-hero em,
+.page-solutions .eyebrow { color: var(--page-accent); }
+.page-solutions .content-card:nth-child(2) { background: var(--page-soft); }
+.page-solutions .content-card { background: var(--page-surface); }

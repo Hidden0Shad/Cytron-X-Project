@@ -1,0 +1,37 @@
+:root {
+    --content-width: 1180px;
+    --page-gutter: 28px;
+    --focus-color: #c69a48;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 3px;
+}

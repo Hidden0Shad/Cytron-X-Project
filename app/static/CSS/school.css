@@ -1,0 +1,939 @@
+:root {
+  --school-gold: #c69a48;
+  --school-gold-light: #e7c883;
+  --school-navy: #17364c;
+  --school-ink: #1d2932;
+  --school-muted: #66737a;
+  --school-cream: #f7f4ee;
+  --school-white: #ffffff;
+  --school-line: #dce1df;
+  --school-shadow: 0 16px 38px rgba(23, 54, 76, 0.13);
+}
+.school-site {
+  background: var(--school-cream);
+  color: var(--school-ink);
+  font-family: "Nunito Sans", Arial, sans-serif;
+  line-height: 1.55;
+}
+.school-site *,
+.school-site *::before,
+.school-site *::after {
+  box-sizing: border-box;
+}
+.school-site a {
+  text-decoration: none;
+}
+.school-topbar {
+  background: var(--school-navy);
+  color: #dce8ed;
+  font-size: 0.75rem;
+}
+.school-topbar-inner,
+.school-nav-inner,
+.school-container {
+  margin: auto;
+  max-width: 1180px;
+}
+.school-topbar-inner {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 28px;
+}
+
+.school-address {
+  max-width: 690px;
+  line-height: 1.4;
+}
+
+.school-address i {
+  color: var(--school-gold-light);
+  margin-right: 5px;
+}
+.school-top-links {
+  display: flex;
+  gap: 20px;
+}
+.school-top-links a:hover {
+  color: var(--school-gold-light);
+}
+.school-header {
+  background: var(--school-white);
+  position: relative;
+  z-index: 10;
+}
+.school-nav-inner {
+  align-items: center;
+  display: flex;
+  gap: 34px;
+  min-height: 84px;
+  padding: 0 28px;
+}
+.school-logo {
+  align-items: center;
+  color: var(--school-navy);
+  display: flex;
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  gap: 11px;
+  line-height: 1.05;
+  margin-right: auto;
+}
+.school-logo small {
+  color: var(--school-gold);
+  display: block;
+  font-family: "Nunito Sans", Arial, sans-serif;
+  font-size: 0.53rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+.school-crest {
+  align-items: center;
+  border: 2px solid var(--school-gold);
+  border-radius: 50% 50% 45% 45%;
+  color: var(--school-gold);
+  display: inline-flex;
+  font-size: 1.05rem;
+  height: 43px;
+  justify-content: center;
+  position: relative;
+  width: 37px;
+}
+.school-crest::after {
+  border-bottom: 2px solid var(--school-gold);
+  bottom: 6px;
+  content: "";
+  left: 7px;
+  position: absolute;
+  transform: rotate(-25deg);
+  width: 19px;
+}
+.school-menu {
+  display: flex;
+  gap: 23px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.school-menu > li {
+  position: relative;
+}
+.school-menu > li > a {
+  color: var(--school-navy);
+  display: inline-flex;
+  font-size: 0.76rem;
+  font-weight: 800;
+  gap: 6px;
+  letter-spacing: 0.05em;
+  padding: 31px 0;
+  text-transform: uppercase;
+}
+.school-menu > li > a:hover,
+.school-menu > li > a.active {
+  color: var(--school-gold);
+}
+.school-menu i {
+  font-size: 0.58rem;
+  padding-top: 4px;
+}
+.school-dropdown {
+  background: var(--school-white);
+  box-shadow: var(--school-shadow);
+  display: none;
+  left: -18px;
+  list-style: none;
+  min-width: 215px;
+  padding: 10px 0;
+  position: absolute;
+  top: 77px;
+}
+.school-dropdown li a {
+  color: var(--school-navy);
+  display: block;
+  font-size: 0.78rem;
+  padding: 10px 18px;
+}
+.school-dropdown li a:hover {
+  background: #f6f0e2;
+  color: var(--school-gold);
+}
+.school-menu li:hover .school-dropdown,
+.school-menu li:focus-within .school-dropdown {
+  display: block;
+}
+.school-nav-button {
+  background: var(--school-gold);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 10px 16px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  line-height: 1.2;
+}
+.school-nav-button:hover {
+  background: var(--school-navy);
+}
+.school-nav-actions {
+  align-items: center;
+  display: flex;
+  margin-left: 12px;
+}
+.school-nav-actions .school-nav-button + .school-nav-button {
+  margin-left: -10px;
+}
+.school-nav-login {
+  background: var(--school-navy);
+  min-width: 128px;
+  border-radius: 5px;
+}
+.school-nav-login:hover {
+  background: var(--school-gold);
+}
+.school-mobile-toggle {
+  background: none;
+  border: 0;
+  color: var(--school-navy);
+  display: none;
+  font-size: 1.4rem;
+}
+.school-hero {
+  align-items: center;
+  background:
+    linear-gradient(90deg, rgba(14, 39, 56, 0.84), rgba(14, 39, 56, 0.18)),
+    url("../images/Entrance.jfif") center/cover;
+  color: white;
+  display: flex;
+  min-height: 590px;
+}
+.school-hero-content {
+  max-width: 1180px;
+  padding: 75px 28px;
+  width: 100%;
+}
+.school-kicker {
+  color: var(--school-gold-light);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.school-hero h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(3rem, 6vw, 5.6rem);
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+  margin: 20px 0;
+  max-width: 680px;
+}
+.school-hero p {
+  color: #e7eef0;
+  font-size: 1.08rem;
+  max-width: 510px;
+}
+.school-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin-top: 30px;
+}
+.school-button {
+  border: 1px solid var(--school-gold);
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 14px 21px;
+  text-transform: uppercase;
+}
+.school-button-gold {
+  background: var(--school-gold);
+  color: #fff;
+}
+.school-button-outline {
+  color: #fff;
+}
+.school-button:hover {
+  background: var(--school-navy);
+  border-color: var(--school-navy);
+}
+.school-intro {
+  background: var(--school-white);
+  padding: 72px 28px;
+  text-align: center;
+}
+.school-intro h2,
+.school-section h2 {
+  color: var(--school-navy);
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 3.3vw, 3.4rem);
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin: 12px auto 16px;
+}
+.school-intro p {
+  color: var(--school-muted);
+  margin: auto;
+  max-width: 650px;
+}
+.school-section {
+  padding: 75px 28px;
+}
+
+.school-showcase {
+  padding-top: 88px;
+  padding-bottom: 88px;
+}
+.school-section-heading {
+  margin-bottom: 35px;
+}
+.school-section-heading h2 {
+  margin-left: 0;
+}
+.school-section-heading p {
+  color: var(--school-muted);
+  max-width: 520px;
+}
+.school-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+}
+.school-card {
+  background: var(--school-white);
+  box-shadow: 0 5px 18px rgba(23, 54, 76, 0.06);
+}
+.school-card-image {
+  height: 190px;
+  object-fit: cover;
+  width: 100%;
+}
+.school-card-body {
+  padding: 24px;
+}
+.school-card h3 {
+  color: var(--school-navy);
+  font-family: Georgia, serif;
+  font-size: 1.45rem;
+  margin: 0 0 8px;
+}
+.school-card p {
+  color: var(--school-muted);
+  font-size: 0.92rem;
+  margin: 0;
+}
+.school-card-link {
+  color: var(--school-gold);
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  margin-top: 18px;
+  text-transform: uppercase;
+}
+.school-band {
+  background: var(--school-navy);
+  color: #fff;
+}
+.school-band .school-section-heading h2 {
+  color: #fff;
+}
+.school-band .school-section-heading p {
+  color: #cad9de;
+}
+.school-stat-grid {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(4, 1fr);
+}
+.school-stat {
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 10px 24px;
+}
+.school-stat strong {
+  color: var(--school-gold-light);
+  display: block;
+  font-family: Georgia, serif;
+  font-size: 2.5rem;
+}
+.school-stat span {
+  color: #d7e1e4;
+  font-size: 0.82rem;
+}
+
+.school-contact-strip {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 48px;
+  align-items: center;
+  padding-top: 82px;
+  padding-bottom: 82px;
+}
+
+.school-contact-intro h2 {
+  max-width: 440px;
+  margin: 12px 0 14px;
+  color: var(--school-navy);
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 3.2vw, 3.2rem);
+  line-height: 1.05;
+}
+
+.school-contact-intro p {
+  max-width: 430px;
+  margin: 0;
+  color: var(--school-muted);
+}
+
+.school-contact-list {
+  display: grid;
+  gap: 12px;
+}
+
+.school-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--school-line);
+  background: var(--school-white);
+  color: var(--school-navy);
+  box-shadow: 0 5px 18px rgba(23, 54, 76, 0.05);
+}
+
+.school-contact-item:hover {
+  border-color: var(--school-gold);
+  transform: translateY(-2px);
+}
+
+.school-contact-item > i {
+  width: 22px;
+  padding-top: 3px;
+  color: var(--school-gold);
+  text-align: center;
+}
+
+.school-contact-item span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.school-contact-item small {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--school-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.school-contact-address {
+  color: var(--school-ink);
+}
+.school-page-hero {
+  background:
+    linear-gradient(90deg, rgba(14, 39, 56, 0.88), rgba(14, 39, 56, 0.35)),
+    url("../images/Sky view.jfif") center/cover;
+  color: #fff;
+  padding: 85px 28px;
+}
+.school-page-hero h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(2.6rem, 5vw, 4.8rem);
+  line-height: 1;
+  margin: 14px 0;
+}
+.school-page-hero p {
+  color: #e3edf0;
+  max-width: 580px;
+}
+
+.school-calendar-hero {
+  background:
+    linear-gradient(90deg, rgba(14, 39, 56, 0.9), rgba(14, 39, 56, 0.42)),
+    url("../images/Sky view.jfif") center/cover;
+}
+
+.school-calendar-content {
+  padding-top: 82px;
+  padding-bottom: 90px;
+}
+
+.school-calendar-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 32px;
+}
+
+.school-calendar-heading h2 {
+  margin: 10px 0 0;
+  color: var(--school-navy);
+  font-family: Georgia, serif;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  line-height: 1;
+}
+
+.school-term-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 42px;
+}
+
+.school-term-card {
+  min-height: 165px;
+  padding: 24px;
+  border-left: 5px solid var(--school-gold);
+  background: var(--school-white);
+  box-shadow: 0 5px 18px rgba(23, 54, 76, 0.06);
+}
+
+.school-term-spring {
+  border-color: #7ba58d;
+}
+
+.school-term-summer {
+  border-color: var(--school-gold);
+}
+
+.school-term-autumn {
+  border-color: #8f6d52;
+}
+
+.school-term-label {
+  color: var(--school-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.school-term-card h3 {
+  margin: 15px 0 6px;
+  color: var(--school-navy);
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+}
+
+.school-term-card p {
+  margin: 0 0 4px;
+  color: var(--school-ink);
+  font-weight: 800;
+}
+
+.school-term-card small {
+  color: var(--school-muted);
+  font-size: 0.8rem;
+}
+
+.school-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.school-calendar-card {
+  min-height: 190px;
+  padding: 24px;
+  border-top: 4px solid var(--school-gold);
+  background: var(--school-white);
+  box-shadow: 0 5px 18px rgba(23, 54, 76, 0.06);
+}
+
+.school-calendar-month {
+  color: var(--school-gold);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.school-calendar-card h3 {
+  margin: 18px 0 5px;
+  color: var(--school-navy);
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+}
+
+.school-calendar-card p {
+  margin: 0 0 6px;
+  color: var(--school-ink);
+  font-weight: 800;
+}
+
+.school-calendar-card small {
+  color: var(--school-muted);
+  font-size: 0.82rem;
+}
+
+.school-calendar-lower {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 28px;
+  margin-top: 52px;
+}
+
+.school-calendar-timeline,
+.school-calendar-notes {
+  padding: 30px;
+  background: var(--school-white);
+  box-shadow: 0 5px 18px rgba(23, 54, 76, 0.06);
+}
+
+.school-calendar-subheading h2 {
+  margin: 10px 0 20px;
+  color: var(--school-navy);
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.school-event-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.school-event-list li {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 18px;
+  padding: 15px 0;
+  border-top: 1px solid var(--school-line);
+}
+
+.school-event-list time {
+  color: var(--school-gold);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.school-event-list strong,
+.school-event-list small {
+  display: block;
+}
+
+.school-event-list strong {
+  color: var(--school-navy);
+  font-size: 0.92rem;
+}
+
+.school-event-list small {
+  margin-top: 3px;
+  color: var(--school-muted);
+  font-size: 0.8rem;
+}
+
+.school-calendar-notes {
+  background: var(--school-navy);
+  color: #fff;
+}
+
+.school-calendar-notes h3 {
+  margin: 0 0 20px;
+  color: var(--school-gold-light);
+  font-family: Georgia, serif;
+  font-size: 1.55rem;
+}
+
+.school-calendar-notes p {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  color: #dce7eb;
+  font-size: 0.84rem;
+}
+
+.school-calendar-notes p i {
+  width: 16px;
+  padding-top: 3px;
+  color: var(--school-gold-light);
+}
+
+.school-calendar-notes a {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--school-gold-light);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.school-content {
+  padding: 70px 28px;
+}
+.school-content-grid {
+  align-items: start;
+  display: grid;
+  gap: 44px;
+  grid-template-columns: 1.2fr 0.8fr;
+}
+.school-content h2 {
+  color: var(--school-navy);
+  font-family: Georgia, serif;
+  font-size: 2.4rem;
+  line-height: 1.05;
+}
+.school-content p {
+  color: var(--school-muted);
+}
+.school-aside {
+  background: var(--school-navy);
+  color: #fff;
+  padding: 27px;
+}
+.school-aside h3 {
+  color: var(--school-gold-light);
+  font-family: Georgia, serif;
+  font-size: 1.45rem;
+}
+.school-aside a {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  display: block;
+  font-size: 0.87rem;
+  padding: 12px 0;
+}
+.school-footer {
+  background: #102b3d;
+  color: #dce7eb;
+  padding: 48px 28px 25px;
+}
+.school-footer-grid {
+  display: grid;
+  gap: 35px;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+}
+.school-footer h3 {
+  color: var(--school-gold-light);
+  font-family: Georgia, serif;
+  font-size: 1rem;
+}
+.school-footer a {
+  color: #dce7eb;
+  display: block;
+  font-size: 0.8rem;
+  margin: 9px 0;
+}
+.school-footer a:hover {
+  color: var(--school-gold-light);
+}
+.school-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 0.72rem;
+  margin-top: 32px;
+  padding-top: 18px;
+}
+.school-form-wrap {
+  display: grid;
+  gap: 55px;
+  grid-template-columns: 0.9fr 1.1fr;
+  margin: auto;
+  max-width: 980px;
+  padding: 85px 28px;
+}
+.school-form-panel {
+  background: #fff;
+  box-shadow: var(--school-shadow);
+  padding: 34px;
+}
+.school-form-panel h2 {
+  color: var(--school-navy);
+  font-family: Georgia, serif;
+  font-size: 2rem;
+}
+.school-form-panel label {
+  color: var(--school-navy);
+  display: block;
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin: 14px 0 7px;
+  text-transform: uppercase;
+}
+.school-form-panel input,
+.school-form-panel textarea,
+.school-form-panel select {
+  background: #fafcfb;
+  border: 1px solid var(--school-line);
+  padding: 13px;
+  width: 100%;
+}
+.school-form-panel textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+.school-form-panel input:focus,
+.school-form-panel textarea:focus {
+  border-color: var(--school-gold);
+  outline: 2px solid #f1e3c5;
+}
+.school-toast {
+  background: var(--school-gold);
+  bottom: 24px;
+  color: #fff;
+  display: none;
+  font-size: 0.82rem;
+  left: 50%;
+  padding: 14px 19px;
+  position: fixed;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+.school-toast.show {
+  display: block;
+}
+@media (max-width: 850px) {
+  .school-nav-inner {
+    min-height: 70px;
+  }
+  .school-mobile-toggle {
+    display: block;
+  }
+  .school-menu {
+    background: #fff;
+    box-shadow: var(--school-shadow);
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    left: 0;
+    padding: 10px 28px 20px;
+    position: absolute;
+    right: 0;
+    top: 70px;
+  }
+  .school-menu.open {
+    display: flex;
+  }
+  .school-menu > li > a {
+    padding: 12px 0;
+  }
+  .school-dropdown {
+    box-shadow: none;
+    display: block;
+    left: 12px;
+    min-width: 0;
+    padding: 0 0 4px;
+    position: static;
+  }
+  .school-dropdown li a {
+    padding: 6px 0;
+  }
+  .school-nav-button {
+    margin-left: auto;
+    margin-right: 12px;
+  }
+  .school-grid,
+  .school-footer-grid,
+  .school-content-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .school-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .school-contact-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .school-calendar-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .school-term-grid,
+  .school-calendar-lower {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .school-topbar-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px 20px;
+  }
+  .school-top-links {
+    gap: 12px;
+  }
+
+  .school-address {
+    max-width: none;
+  }
+  .school-nav-inner {
+    padding: 0 20px;
+  }
+  .school-logo {
+    font-size: 1.05rem;
+  }
+  .school-nav-button {
+    display: none;
+  }
+  .school-hero {
+    min-height: 510px;
+  }
+  .school-hero-content {
+    padding: 55px 20px;
+  }
+  .school-hero h1 {
+    font-size: 3.15rem;
+  }
+  .school-grid,
+  .school-footer-grid,
+  .school-content-grid {
+    grid-template-columns: 1fr;
+  }
+  .school-stat-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .school-section,
+  .school-content {
+    padding: 55px 20px;
+  }
+
+  .school-showcase,
+  .school-contact-strip {
+    padding-top: 55px;
+    padding-bottom: 55px;
+  }
+
+  .school-calendar-content {
+    padding-top: 55px;
+    padding-bottom: 55px;
+  }
+
+  .school-calendar-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .school-calendar-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .school-calendar-timeline,
+  .school-calendar-notes {
+    padding: 24px;
+  }
+  .school-form-wrap {
+    grid-template-columns: 1fr;
+    padding: 55px 20px;
+  }
+  .school-page-hero {
+    padding: 65px 20px;
+  }
+}
