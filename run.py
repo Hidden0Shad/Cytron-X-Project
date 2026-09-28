@@ -1,3 +1,4 @@
+import os
 from flask import render_template
 from app import create_app
 
@@ -48,4 +49,12 @@ if __name__ == '__main__':
     # test) are actually handled in parallel instead of queued one at a
     # time; safe now that SQLite is in WAL mode with a busy_timeout set
     # (see app/__init__.py).
-    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    # Bound to localhost with the Werkzeug debugger off: debug=True on
+    # 0.0.0.0 exposes an interactive console (remote code execution) to the
+    # whole network. For local development only, set FLASK_DEBUG=1 in .env.
+    debug = os.getenv('FLASK_DEBUG', '0') == '1'
+    # FLASK_HOST defaults to localhost. Set FLASK_HOST=0.0.0.0 in .env only when
+    # you need another machine (e.g. a Kali VM) to reach the app, and keep
+    # debug off when you do.
+    host = os.getenv('FLASK_HOST', '127.0.0.1')
+    app.run(host=host, port=5000, debug=debug, threaded=True)

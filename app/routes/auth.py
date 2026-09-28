@@ -1,5 +1,5 @@
 import os
-import random
+import secrets
 import datetime
 import smtplib
 from email.mime.text import MIMEText
@@ -53,6 +53,48 @@ def send_mailtrap_email(to_email, otp_code, is_stepup=False):
         print(f"Mock Delivery Error: {e}")
         return False
 
+def deliver_otp(user, otp_code, label, is_stepup=False):
+    """Deliver an OTP according to OTP_DELIVERY_MODE ('console' or 'mailtrap').
+    Returns (ok, mode). Falls back to console if the mode is unset or unknown."""
+    mode = (os.getenv('OTP_DELIVERY_MODE') or 'console').strip().lower()
+    if mode == 'mailtrap':
+        return send_mailtrap_email(user.email, otp_code, is_stepup=is_stepup), 'mailtrap'
+    print(f"\n--- CONSOLE OTP ({label}) FOR {user.username}: {otp_code} ---\n")
+    return True, 'console'
+
+
+def generate_otp():
+    """6-digit OTP from a cryptographically secure source."""
+    return str(secrets.randbelow(900000) + 100000)
+
+
+def issue_otp(user, otp_type):
+    """Create a fresh OTP and invalidate any earlier unused ones of the same
+    type, so only the most recently issued code is ever valid."""
+    OTPRecord.query.filter_by(username=user.username, otp_type=otp_type, is_verified=False).delete()
+    code = generate_otp()
+    expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
+    db.session.add(OTPRecord(username=user.username, otp_type=otp_type, code=code, expires_at=expires))
+    db.session.commit()
+    return code
+
+
+AUTH_FAIL_MSG = 'Invalid credentials, or the account is temporarily locked. Please try again later.'
+
+
+def auth_failure():
+    """One reply for wrong password, unknown user AND locked account, so the
+    response cannot be used to confirm that a username exists. The real
+    LOCKED state is still recorded in the audit log."""
+    return jsonify({'error': AUTH_FAIL_MSG}), 401
+
+
+def otp_failure(label):
+    """Same idea for OTP steps: bad code, unknown user and locked account all
+    look identical to the caller."""
+    return jsonify({'error': f'Invalid or expired {label}, or the account is temporarily locked.'}), 400
+
+
 # ==========================================
 # SCENARIO 1: BASELINE PASSWORD ONLY
 # ==========================================
@@ -69,7 +111,7 @@ def scenario_1_login():
 
     if user and user.locked_until and user.locked_until > datetime.datetime.utcnow():
         log_event(username, user.role, ip, 'Scenario 1', 'Password', 'Login Attempt on Locked Account', 'LOCKED')
-        return jsonify({'error': 'Account is temporarily locked.'}), 429
+        return auth_failure()
 
     if user and password and check_password_hash(user.password, password):
         reset_failed_attempts(user)
@@ -94,7 +136,7 @@ def scenario_1_login():
     else:
         log_event(username, 'Unknown', ip, 'Scenario 1', 'Password', 'Invalid User Login Attempt', 'FAILURE')
 
-    return jsonify({'error': 'Invalid credentials'}), 401
+    return auth_failure()
 
 # ==========================================
 # SCENARIO 2: PASSWORD + MOCK EMAIL OTP
@@ -112,28 +154,19 @@ def scenario_2_step1():
 
     if user and user.locked_until and user.locked_until > datetime.datetime.utcnow():
         log_event(username, user.role, ip, 'Scenario 2', 'Password', 'Login Attempt on Locked Account', 'LOCKED')
-        return jsonify({'error': 'Account is temporarily locked.'}), 429
+        return auth_failure()
 
     if user and password and check_password_hash(user.password, password):
-        otp_code = str(random.randint(100000, 999999))
-        expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
-        
-        otp_entry = OTPRecord(username=user.username, otp_type='mock_email', code=otp_code, expires_at=expires)
-        db.session.add(otp_entry)
-        db.session.commit()
+        otp_code = issue_otp(user, 'mock_email')
 
-        delivery_mode = os.getenv('OTP_DELIVERY_MODE', 'console')
-        
-        if delivery_mode == 'mailtrap':
-            if send_mailtrap_email(user.email, otp_code, is_stepup=False):
+        ok, mode = deliver_otp(user, otp_code, 'S2', is_stepup=False)
+        if ok:
+            if mode == 'mailtrap':
                 log_event(username, user.role, ip, 'Scenario 2', 'Mock Email OTP', 'OTP Sent via Mailtrap', 'SUCCESS')
                 return jsonify({'message': 'Password verified. Check your Mailtrap inbox for the OTP.'}), 200
-            else:
-                return jsonify({'error': 'Failed to send OTP email.'}), 500
-        else:
-            print(f"\n--- CONSOLE OTP FOR {username}: {otp_code} ---\n")
             log_event(username, user.role, ip, 'Scenario 2', 'Console OTP', 'OTP Generated to Console', 'SUCCESS')
             return jsonify({'message': 'Password verified. Check server console for OTP.'}), 200
+        return jsonify({'error': 'Failed to send OTP email.'}), 500
 
     if user:
         user, attempts, just_locked = register_failed_attempt(user.username)
@@ -144,7 +177,7 @@ def scenario_2_step1():
     else:
         log_event(username, 'Unknown', ip, 'Scenario 2', 'Password', 'Invalid User Login Attempt', 'FAILURE')
 
-    return jsonify({'error': 'Invalid credentials'}), 401
+    return auth_failure()
 
 
 @auth_bp.route('/login-scenario-2/step2', methods=['POST'])
@@ -159,7 +192,7 @@ def scenario_2_step2():
 
     if user and user.locked_until and user.locked_until > datetime.datetime.utcnow():
         log_event(username, user.role, ip, 'Scenario 2', 'OTP Verifier', 'OTP Attempt on Locked Account', 'LOCKED')
-        return jsonify({'error': 'Account is temporarily locked.'}), 429
+        return otp_failure('OTP code')
     
     otp_record = OTPRecord.query.filter_by(username=username, otp_type='mock_email', code=code, is_verified=False)\
                                  .order_by(OTPRecord.id.desc()).first()
@@ -171,7 +204,7 @@ def scenario_2_step2():
                 log_event(username, user.role, ip, 'Scenario 2', 'OTP Verifier', 'Max Failed OTP Attempts - Account Locked', 'LOCKED')
             else:
                 log_event(username, user.role, ip, 'Scenario 2', 'OTP Verifier', f'Invalid/Expired OTP ({attempts}/5)', 'FAILURE')
-        return jsonify({'error': 'Invalid or expired OTP code'}), 400
+        return otp_failure('OTP code')
 
     otp_record.is_verified = True
     reset_failed_attempts(user)
@@ -203,19 +236,16 @@ def scenario_3_step1():
 
     if user and user.locked_until and user.locked_until > datetime.datetime.utcnow():
         log_event(username, user.role, ip, 'Scenario 3', 'Password', 'Login Attempt on Locked Account', 'LOCKED')
-        return jsonify({'error': 'Account is temporarily locked.'}), 429
+        return auth_failure()
 
     if user and password and check_password_hash(user.password, password):
-        otp_code = str(random.randint(100000, 999999))
-        expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
-        
-        otp_entry = OTPRecord(username=user.username, otp_type='scenario3_primary', code=otp_code, expires_at=expires)
-        db.session.add(otp_entry)
-        db.session.commit()
+        otp_code = issue_otp(user, 'scenario3_primary')
 
-        if send_mailtrap_email(user.email, otp_code, is_stepup=False):
-            log_event(username, user.role, ip, 'Scenario 3', 'Primary OTP', 'Primary OTP Sent', 'SUCCESS')
-            return jsonify({'message': 'Password verified. Check Mailtrap for your Primary OTP.'}), 200
+        ok, mode = deliver_otp(user, otp_code, 'S3 PRIMARY', is_stepup=False)
+        if ok:
+            log_event(username, user.role, ip, 'Scenario 3', 'Primary OTP', f'Primary OTP Sent via {mode.capitalize()}', 'SUCCESS')
+            where = 'Mailtrap inbox' if mode == 'mailtrap' else 'server console'
+            return jsonify({'message': f'Password verified. Check the {where} for your Primary OTP.'}), 200
         else:
             return jsonify({'error': 'Failed to send Primary OTP.'}), 500
 
@@ -228,7 +258,7 @@ def scenario_3_step1():
     else:
         log_event(username, 'Unknown', ip, 'Scenario 3', 'Password', 'Invalid User Login Attempt', 'FAILURE')
 
-    return jsonify({'error': 'Invalid credentials'}), 401
+    return auth_failure()
 
 @auth_bp.route('/login-scenario-3/step2', methods=['POST'])
 @limiter.limit("20 per minute")
@@ -241,7 +271,7 @@ def scenario_3_step2():
     user = User.query.filter_by(username=username).first()
 
     if user and user.locked_until and user.locked_until > datetime.datetime.utcnow():
-        return jsonify({'error': 'Account is temporarily locked.'}), 429
+        return otp_failure('Primary OTP')
     
     otp_record = OTPRecord.query.filter_by(username=username, otp_type='scenario3_primary', code=code, is_verified=False)\
                                  .order_by(OTPRecord.id.desc()).first()
@@ -253,22 +283,20 @@ def scenario_3_step2():
                 log_event(username, user.role, ip, 'Scenario 3', 'Primary OTP', 'Max Failed OTP - Account Locked', 'LOCKED')
             else:
                 log_event(username, user.role, ip, 'Scenario 3', 'Primary OTP', f'Invalid/Expired OTP ({attempts}/5)', 'FAILURE')
-        return jsonify({'error': 'Invalid or expired Primary OTP'}), 400
+        return otp_failure('Primary OTP')
 
     otp_record.is_verified = True
     db.session.commit()
     log_event(username, user.role, ip, 'Scenario 3', 'Primary OTP', 'Primary OTP Verified', 'SUCCESS')
 
     # Generate and send the simulated Step-Up OTP via Mailtrap
-    stepup_otp = str(random.randint(100000, 999999))
-    expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
-    stepup_entry = OTPRecord(username=user.username, otp_type='scenario3_stepup', code=stepup_otp, expires_at=expires)
-    db.session.add(stepup_entry)
-    db.session.commit()
+    stepup_otp = issue_otp(user, 'scenario3_stepup')
 
-    if send_mailtrap_email(user.email, stepup_otp, is_stepup=True):
-        log_event(username, user.role, ip, 'Scenario 3', 'Email Step-Up', f'Step-Up Mock OTP sent', 'SUCCESS')
-        return jsonify({'message': f'Primary OTP verified. Check Mailtrap for the Final Step-Up OTP.'}), 200
+    ok, mode = deliver_otp(user, stepup_otp, 'S3 STEP-UP', is_stepup=True)
+    if ok:
+        log_event(username, user.role, ip, 'Scenario 3', 'Email Step-Up', f'Step-Up OTP Sent via {mode.capitalize()}', 'SUCCESS')
+        where = 'Mailtrap inbox' if mode == 'mailtrap' else 'server console'
+        return jsonify({'message': f'Primary OTP verified. Check the {where} for the Final Step-Up OTP.'}), 200
     else:
         return jsonify({'error': 'Failed to send Step-Up OTP.'}), 500
 
@@ -283,7 +311,7 @@ def scenario_3_step3():
     user = User.query.filter_by(username=username).first()
 
     if user and user.locked_until and user.locked_until > datetime.datetime.utcnow():
-        return jsonify({'error': 'Account is temporarily locked.'}), 429
+        return otp_failure('Step-Up OTP')
     
     otp_record = OTPRecord.query.filter_by(username=username, otp_type='scenario3_stepup', code=code, is_verified=False)\
                                  .order_by(OTPRecord.id.desc()).first()
@@ -295,7 +323,7 @@ def scenario_3_step3():
                 log_event(username, user.role, ip, 'Scenario 3', 'Email Step-Up', 'Max Failed Step-Up - Account Locked', 'LOCKED')
             else:
                 log_event(username, user.role, ip, 'Scenario 3', 'Email Step-Up', f'Invalid/Expired Step-Up OTP ({attempts}/5)', 'FAILURE')
-        return jsonify({'error': 'Invalid or expired Step-Up OTP'}), 400
+        return otp_failure('Step-Up OTP')
 
     otp_record.is_verified = True
     reset_failed_attempts(user)

@@ -134,7 +134,7 @@ async function handleLogin() {
                 const data = await res.json();
 
                 if (res.status === 200) {
-                    showAlert("Check Mailtrap for Step-Up OTP");
+                    showAlert("Check Console/Mailtrap for Step-Up OTP");
 
                     loginStep = 3;
 

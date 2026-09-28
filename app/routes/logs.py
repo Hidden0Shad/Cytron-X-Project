@@ -13,7 +13,10 @@ def fetch_audit_logs():
         'timestamp': l.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
         'username': l.username,
         'role': l.role,
+        'ip_address': l.ip_address,
         'scenario': l.scenario,
+        'factor_used': l.factor_used,
+        'action': l.action,
         'status': l.status
     } for l in logs]
     # Returned as a bare array, not {'logs': [...]}: main.js does
